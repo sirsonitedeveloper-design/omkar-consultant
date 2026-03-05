@@ -115,13 +115,16 @@
   font-size: 23px;
   font-weight: 700;
   margin-bottom: 12px;
+     font-family: "Outfit", sans-serif;
+
 }
 
 .service-card p,
 .service-card1 p {
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.6;
   opacity: 0.95;
+  font-family:'Inter',sans-serif;
 }
 
 .learn-more {
@@ -134,6 +137,7 @@
   color: #047da8;
   text-decoration: none;
   transition: 0.3s ease;
+   font-family: "Outfit", sans-serif;
 }
 
 .learn-more:hover {

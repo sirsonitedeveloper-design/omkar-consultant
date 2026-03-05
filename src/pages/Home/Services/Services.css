@@ -1,5 +1,4 @@
-/* HEADER */
-
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
 .section-header {
   text-align: center;
   margin-bottom: 40px;
@@ -10,8 +9,8 @@
   font-family: "Outfit", sans-serif;
   font-weight: 700;
   font-size: 40px;
-  color: #000;
-  margin-bottom: 8px;
+  color: #00334e;
+      margin-bottom: 8px;
 }
 
 .section-header h2::after {
@@ -25,16 +24,16 @@
 }
 
 .section-header p {
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
   max-width: 650px;
   margin: 0 auto;
   line-height: 1.6;
+  font-family: "Inter", sans-serif;
 }
 
 .services-section {
   background: #f8f9fa;
-  /* padding: 70px 0; */
 }
 
 .slider-wrapper {
@@ -50,10 +49,17 @@
 
 .services-track {
   display: flex;
-  transition: transform 0.5s ease;
+  gap: 20px;
+  width: max-content;
+  animation: servicesMarquee 20s linear infinite;
+}
+
+.services-slider:hover .services-track {
+  animation-play-state: paused;
 }
 
 .service-item {
+  min-width: 300px;
   padding: 15px;
   box-sizing: border-box;
 }
@@ -65,7 +71,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: 0.3s;
   border-radius: 12px;
   width: 100%;
 }
@@ -77,7 +82,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: 0.3s;
   border-radius: 12px;
   width: 100%;
 }
@@ -129,6 +133,7 @@
 .service-card1 h3 {
   font-size: 20px;
   font-weight: 700;
+  font-family: "Outfit", sans-serif;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -138,36 +143,25 @@
   font-size: 15px;
   line-height: 1.6;
   text-align: center;
+  font-family: "Inter", sans-serif;
 }
 
-.service-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #fff;
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 28px;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+@keyframes servicesMarquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-.service-arrow.left {
-  left: -20px;
-}
-
-.service-arrow.right {
-  right: -20px;
-}
-
-/* TABLET */
+/* ================= TABLET ================= */
 
 @media (max-width: 1024px) {
   .section-header h2 {
     font-size: 34px;
+    font-family: "Outfit", sans-serif;
   }
 
   .service-card,
@@ -176,29 +170,11 @@
   }
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
   .section-header h2 {
     font-size: 28px;
-  }
-
-  .slider-wrapper {
-    padding: 0 10px;
-  }
-
-  .service-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
-  }
-
-  .service-arrow.left {
-    left: 5px;
-  }
-
-  .service-arrow.right {
-    right: 5px;
   }
 
   .service-card,
@@ -207,20 +183,20 @@
     min-height: auto;
   }
 
-  .service-card h3,
-  .service-card1 h3 {
-    margin-right: 30px;
-  }
-
-  .service-card p,
-  .service-card1 p {
-    margin-right: 30px;
-  }
-
   .icon-box {
     width: 70px;
     height: 70px;
     margin-right: 50%;
+  }
+
+  .service-card h3,
+  .service-card1 h3 {
+    margin-right: 10%;
+  }
+
+  .service-card p,
+  .service-card1 p {
+    margin-right: 10%;
   }
 
   .icon-box img {
@@ -229,14 +205,17 @@
 
   .services-section {
     padding: 50px 0;
-    /* background-color: red; */
   }
 }
 
-/* SMALL MOBILE */
+/* ================= SMALL MOBILE ================= */
 
 @media (max-width: 480px) {
   .services-section {
     padding: 50px 0;
+  }
+
+  .service-item {
+    min-width: 260px;
   }
 }

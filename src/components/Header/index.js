@@ -31,11 +31,44 @@ const Header = () => {
               </Link>
             </li>
 
-            <li>
-              <Link to="/services" className="nav-link" onClick={closeMenu}>
-                <b>Services</b>
-              </Link>
-            </li>
+         
+            <li className="dropdown">
+  <span className="nav-link">
+    <b>Services ▾</b>
+  </span>
+
+  <ul className="dropdown-menu">
+    <li>
+      <Link to="/service-details">Gap Audit</Link>
+    </li>
+
+    <li>
+      <Link to="/service-details">Internal Audit</Link>
+    </li>
+
+    <li>
+      <Link to="/service-details">Customized Trainings</Link>
+    </li>
+
+    <li>
+      <Link to="/service-details">Transition Of Standards</Link>
+    </li>
+     <li>
+      title: "Virtual Trainings",
+      <Link to="/service-details"></Link>
+    </li>
+
+    <li>
+      <Link to="/service-details">Supplier Audits</Link>
+    </li>
+     <li>
+      <Link to="/service-details">Documentation</Link>
+    </li>
+     <li>
+      <Link to="/service-details">Certification Upgrades</Link>
+    </li>
+  </ul>
+</li>
 
             <li>
               <Link to="/iso" className="nav-link" onClick={closeMenu}>

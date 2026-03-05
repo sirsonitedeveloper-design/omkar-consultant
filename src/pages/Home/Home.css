@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500&display=swap");
 .hero-slider {
   position: relative;
   display: flex;
@@ -67,7 +68,7 @@
 .btn-hero-main {
   position: absolute;
   bottom: 130px;
-  right: 14%;
+  right: 7.5%;
   width: 257px;
   height: 56px;
   background: #0b82ad;
@@ -183,18 +184,19 @@
 .about-header {
   text-align: center;
   margin-bottom: 50px;
+
 }
 
 .about-header h2 {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
-  font-size: 40px;
-  color: #000;
-  margin-bottom: 8px;
+  font-size: 45px;
+    color: #000;
+  margin-bottom: 4px;
 }
 
 .about-header p {
-  font-family: Arial, sans-serif;
+    font-family:"Inter",sans-serif;
   font-size: 18px;
   color: #6b7280;
 }
@@ -216,11 +218,11 @@
 }
 
 .about-content p {
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   line-height: 1.9;
-  color: rgba(0, 0, 0, 0.65);
   margin-bottom: 14px;
+    color:#6B7280;
 }
 
 .btn-contact {
@@ -228,6 +230,7 @@
   color: #fff;
   border: none;
   padding: 12px 26px;
+    font-family:"Outfit",sans-serif;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
@@ -340,15 +343,17 @@
 
 .why-choose-section .section-header h2 {
   font-size: 32px;
-  color: #00334e;
+  color:#000;
   font-weight: 700;
   margin-bottom: 12px;
+   font-family: "Outfit", sans-serif;
 }
 
 .why-choose-section .section-header p {
   font-size: 18px;
   color: #666;
   padding-bottom: 20px;
+  font-family:'Inter',sans-serif;
 }
 
 .why-choose-section .features-grid {
@@ -386,6 +391,7 @@
   color: #00334e;
   font-weight: 600;
   margin-bottom: 10px;
+   font-family: "Outfit", sans-serif;
 }
 
 .why-choose-section .feature-item p {
@@ -394,6 +400,7 @@
   line-height: 1.6;
   max-width: 280px;
   margin: 0 auto;
+  font-family:'Inter',sans-serif;
 }
 
 @media (max-width: 1024px) {

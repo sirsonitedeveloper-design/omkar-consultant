@@ -204,6 +204,7 @@ const ServiceCard = () => {
   const secondRow = Service.slice(4, 8);
 
   return (
+    <div>
     <section className="services-section">
       <div className="container">
         <div className="services-grid">
@@ -249,8 +250,10 @@ const ServiceCard = () => {
         </div>
       </div>
 
-      <Footer />
+     
     </section>
+     <Footer />
+    </div>
   );
 };
 
