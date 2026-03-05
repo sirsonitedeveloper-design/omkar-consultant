@@ -54,8 +54,8 @@ const Header = () => {
       <Link to="/service-details">Transition Of Standards</Link>
     </li>
      <li>
-      title: "Virtual Trainings",
-      <Link to="/service-details"></Link>
+      
+      <Link to="/service-details">Virtual Trainings</Link>
     </li>
 
     <li>

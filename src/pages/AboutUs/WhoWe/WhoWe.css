@@ -25,12 +25,23 @@
   font-family: "Outfit", sans-serif;
   font-weight: 700;
   font-size: 40px;
-  color: #000;
+  color: #1e3a8a;
   margin-bottom: 8px;
   margin-top: 10px;
+  position: relative;
+  display: inline-block;
 }
 
-
+.who-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px; /* space between text and line */
+  width: 80px; /* underline width */
+  height: 3px; /* thickness */
+  background-color: #1e3a8a;
+  left: 35%;
+}
 .inner-section {
   width: 1054px;
   max-width: 100%;
@@ -47,7 +58,7 @@
   max-width: 100%;
   margin: 0 auto;
 
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 20px;
   line-height: 29.25px;
@@ -61,7 +72,6 @@
   width: 845px;
   max-width: 100%;
 }
-
 
 @media (max-width: 1400px) {
   .who-section {

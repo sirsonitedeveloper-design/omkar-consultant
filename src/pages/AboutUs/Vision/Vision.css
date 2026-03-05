@@ -18,13 +18,13 @@
 }
 
 .vision-section h2 {
-    font-family: "Outfit", sans-serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 700;
   font-size: 40px;
-  color: #000;
+  color: #1e3a8a;
   margin-bottom: 8px;
-
 }
+
 .vision-sub {
   color: #4a5565;
   font-size: 18px;
@@ -47,6 +47,26 @@
   overflow: hidden;
   padding: 40px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+
+  /* Animation */
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 0.8s ease forwards;
+
+  transition: all 0.4s ease;
+}
+
+.vision-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.vision-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.vision-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.12);
 }
 
 .inner-vision {
@@ -106,6 +126,7 @@
   color: #fff;
   font-size: 20px;
   box-shadow: 0px 6px 14px rgba(11, 130, 173, 0.25);
+  transition: transform 0.3s ease;
 }
 
 .vision-label {
@@ -126,7 +147,7 @@
 .inner-vision .vision-paragraph {
   width: 459px;
   height: 78px;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 26px;
@@ -155,7 +176,18 @@
   transform: translateY(-2px);
 }
 
-/* ===============================   RESPONSIVE=================================*/
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
   .vision-card {
