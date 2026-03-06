@@ -5,16 +5,20 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   const closeMenu = () => {
     setMenuOpen(false);
+    setServicesOpen(false);
   };
 
   return (
     <header className="main-header">
       <div className="container header-flex">
         <div className="logo">
-          <img src={logo} alt="Logo" />
+          <Link to="/" onClick={closeMenu}>
+            <img src={logo} alt="Logo" />
+          </Link>
         </div>
 
         <nav className={`navbar ${menuOpen ? "open" : ""}`}>
@@ -31,44 +35,73 @@ const Header = () => {
               </Link>
             </li>
 
-         
+            {/* SERVICES */}
             <li className="dropdown">
-  <span className="nav-link">
-    <b>Services ▾</b>
-  </span>
+              <div className="services-link">
+                <Link to="/services" className="nav-link" onClick={closeMenu}>
+                  <b>Services</b>
+                </Link>
 
-  <ul className="dropdown-menu">
-    <li>
-      <Link to="/service-details">Gap Audit</Link>
-    </li>
+                <span
+                  className="dropdown-arrow"
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                >
+                  ▾
+                </span>
+              </div>
 
-    <li>
-      <Link to="/service-details">Internal Audit</Link>
-    </li>
+              {servicesOpen && (
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Gap Audit
+                    </Link>
+                  </li>
 
-    <li>
-      <Link to="/service-details">Customized Trainings</Link>
-    </li>
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Internal Audit
+                    </Link>
+                  </li>
 
-    <li>
-      <Link to="/service-details">Transition Of Standards</Link>
-    </li>
-     <li>
-      
-      <Link to="/service-details">Virtual Trainings</Link>
-    </li>
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Customized Trainings
+                    </Link>
+                  </li>
 
-    <li>
-      <Link to="/service-details">Supplier Audits</Link>
-    </li>
-     <li>
-      <Link to="/service-details">Documentation</Link>
-    </li>
-     <li>
-      <Link to="/service-details">Certification Upgrades</Link>
-    </li>
-  </ul>
-</li>
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Transition Of Standards
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Virtual Trainings
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Supplier Audits
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Documentation
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/service-details" onClick={closeMenu}>
+                      Certification Upgrades
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
 
             <li>
               <Link to="/iso" className="nav-link" onClick={closeMenu}>

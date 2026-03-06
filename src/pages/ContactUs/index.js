@@ -81,10 +81,9 @@ const ContactUs = () => {
                 />
               </svg>
             </div>
-            <h3>Office Address</h3>
-            <p>123 Business Center</p>
-            <p>Commercial Road</p>
-            <p>Mumbai - 400001, India</p>
+           
+            <p>Office Address<br></br>123 Business Center<br></br>Commercial Road<br></br>Mumbai - 400001, India</p>
+            
           </div>
           <div className="contact-card">
             <div className="icon-circle">

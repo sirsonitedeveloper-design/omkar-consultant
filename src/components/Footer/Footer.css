@@ -143,3 +143,18 @@ p a {
   text-decoration: none;
   font-weight: 500;
 }
+@media (max-width:1024px){
+
+.footer-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media (max-width:600px){
+
+.footer-grid{
+grid-template-columns:1fr;
+}
+
+}

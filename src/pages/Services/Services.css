@@ -5,8 +5,6 @@
   overflow: hidden;
 }
 
-
-
 .services-hero-bg {
   position: absolute;
   inset: 0;
@@ -14,7 +12,6 @@
   height: 100%;
   object-fit: cover;
 }
-
 
 .services-hero-content {
   position: absolute;
@@ -42,7 +39,6 @@
   font-size: 48px;
   line-height: 48px;
   justify-content: center;
-  /* margin: 0; */
   margin-left: 30%;
 }
 
@@ -53,42 +49,32 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;
-   margin-left: 30%;
-
+  margin-left: 30%;
 }
 
 .services-consult-btn {
   position: absolute;
   top: 450px;
-  right: 140px;
-
+  right: 180px;
   width: 212px;
   height: 48px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   padding: 0 24px;
-
   border-radius: 9999px;
   border: none;
-
   background: linear-gradient(90deg, #0b82ad 0%, #053547 100%);
   color: #ffffff;
   text-decoration: none;
-
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 16px;
-
+  font-size: 13px;
   cursor: pointer;
-
   box-shadow:
-    0px 4px 6px -4px rgba(0,0,0,0.1),
-    0px 10px 15px -3px rgba(0,0,0,0.1);
-
+    0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   z-index: 3;
 }
 

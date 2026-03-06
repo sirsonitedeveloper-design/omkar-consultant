@@ -2,6 +2,7 @@ import React from "react";
 import "./Training.css";
 import { Link } from "react-router-dom";
 import Services from "../Services/index.js";
+
 import ContactModal from "../../../components/ConsultationModal/index.js";
 import { useState } from "react";
 
