@@ -139,7 +139,6 @@ const ContactUs = () => {
             </form>
           </div>
 
-          {/* Right Side (Map) */}
           <div className="contact-right">
             <div className="map-card">
               <iframe

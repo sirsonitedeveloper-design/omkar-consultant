@@ -1,5 +1,3 @@
-
-// export default ServiceCard;
 import React, { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import "./ServicesCard.css";
@@ -54,7 +52,7 @@ const ServiceCard = () => {
 
     {
       icon: (
-       <svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="38"
           height="38"
@@ -83,7 +81,7 @@ const ServiceCard = () => {
 
     {
       icon: (
-       <svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
           height="40"
@@ -108,7 +106,7 @@ const ServiceCard = () => {
 
     {
       icon: (
-         <svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="52"
           height="52"
@@ -152,7 +150,7 @@ const ServiceCard = () => {
 
     {
       icon: (
-         <svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
           height="27"
@@ -170,7 +168,7 @@ const ServiceCard = () => {
 
     {
       icon: (
-       <svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
           height="27"
@@ -188,14 +186,14 @@ const ServiceCard = () => {
   ];
 
   useEffect(() => {
-    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/Services/home")
+    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/service-slugs")
       .then((res) => res.json())
       .then((data) => setApiData(data.data || []))
       .catch((err) => console.log(err));
   }, []);
 
-  const createSlug = (title) =>
-    title?.toLowerCase().replace(/\s+/g, "-");
+  const createSlug = (item) =>
+    item.slug || item.title.toLowerCase().replace(/\s+/g, "-");
 
   const firstRow = apiData.slice(0, 4);
   const secondRow = apiData.slice(4, 8);
@@ -204,55 +202,55 @@ const ServiceCard = () => {
     <div>
       <section className="services-section">
         <div className="container">
-
           <div className="services-grid">
-            {firstRow.map((item, i) => (
-              <div key={i} className="service-item">
-                <div className={Service[i]?.class}>
-                  <div className="icon-box">
-                    {Service[i]?.icon}
+            {firstRow.map((item, i) => {
+              const config = Service[i % Service.length];
+
+              return (
+                <div key={i} className="service-item">
+                  <div className={config.class}>
+                    <div className="icon-box">{config.icon}</div>
+
+                    <h3>{item.title}</h3>
                   </div>
 
-                  <h3>{item.title}</h3>
-                  <p>{item.home_content}</p>
+                  <span
+                    className="learn-more"
+                    onClick={() =>
+                      navigate(`/service-details/${createSlug(item)}`)
+                    }
+                  >
+                    Learn More →
+                  </span>
                 </div>
-
-                <span
-                  className="learn-more"
-                  onClick={() =>
-                    navigate(`/service-details/${createSlug(item.title)}`)
-                  }
-                >
-                  Learn More →
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="services-grid2">
-            {secondRow.map((item, i) => (
-              <div key={i} className="service-item">
-                <div className={Service[i + 4]?.class}>
-                  <div className="icon-box">
-                    {Service[i + 4]?.icon}
+            {secondRow.map((item, i) => {
+              const config = Service[(i + firstRow.length) % Service.length];
+
+              return (
+                <div key={i} className="service-item">
+                  <div className={config.class}>
+                    <div className="icon-box">{config.icon}</div>
+
+                    <h3>{item.title}</h3>
                   </div>
 
-                  <h3>{item.title}</h3>
-                  <p>{item.home_content}</p>
+                  <span
+                    className="learn-more"
+                    onClick={() =>
+                      navigate(`/service-details/${createSlug(item)}`)
+                    }
+                  >
+                    Learn More →
+                  </span>
                 </div>
-
-                <span
-                  className="learn-more"
-                  onClick={() =>
-                    navigate(`/service-details/${createSlug(item.title)}`)
-                  }
-                >
-                  Learn More →
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
-
         </div>
       </section>
 

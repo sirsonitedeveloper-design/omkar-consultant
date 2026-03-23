@@ -29,7 +29,6 @@ const IsoStandards = () => {
           </p>
         </div>
 
-        {/* OPEN MODAL BUTTON */}
         <button
           className="consult-btn-IsoStandards"
           onClick={() => setShowModal(true)}

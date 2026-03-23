@@ -14,7 +14,6 @@ const Header = () => {
     setServicesOpen(false);
   };
 
-  // ✅ FETCH SERVICES API
   useEffect(() => {
     fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/Services/home")
       .then((res) => res.json())
@@ -22,7 +21,6 @@ const Header = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // ✅ SLUG FUNCTION
   const createSlug = (title) =>
     title?.toLowerCase().replace(/\s+/g, "-");
 
@@ -31,12 +29,10 @@ const Header = () => {
 
       <div className="container header-flex">
 
-        {/* LOGO */}
         <div className="logo">
           <img src={logo} alt="Logo" />
         </div>
 
-        {/* NAVBAR */}
         <nav className={`navbar ${menuOpen ? "open" : ""}`}>
 
           <ul className="nav-menu">
@@ -53,7 +49,6 @@ const Header = () => {
               </Link>
             </li>
 
-            {/* ✅ SERVICES DROPDOWN */}
             <li className={`dropdown ${servicesOpen ? "open" : ""}`}>
 
               <div className="services-link">
@@ -79,13 +74,12 @@ const Header = () => {
 
               </div>
 
-              {/* ✅ DYNAMIC MENU */}
               <ul className="dropdown-menu">
 
                 {servicesData.map((item, i) => (
                   <li key={i}>
                     <Link
-                      to={`/service-details/${createSlug(item.title)}`} // ✅ FIX
+                      to={`/service-details/${createSlug(item.title)}`} 
                       onClick={closeMenu}
                     >
                       {item.title}
@@ -123,7 +117,6 @@ const Header = () => {
 
         </nav>
 
-        {/* HAMBURGER */}
         <div
           className={`hamburger ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}

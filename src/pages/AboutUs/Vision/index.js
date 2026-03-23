@@ -2,22 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./Vision.css";
 
 const Vision = () => {
-  const [mission, setMission] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMission = async () => {
+    const fetchData = async () => {
       try {
         const res = await fetch(
-          "https://www.sirsonite.in/sirsonite-d/omkaradmin/api/about-section/mission",
-          { method: "GET" }
+          "https://www.sirsonite.in/sirsonite-d/omkaradmin/api/about-sections"
         );
 
-        const data = await res.json();
-        console.log("MISSION API 👉", data);
+        const result = await res.json();
+        console.log("API 👉", result);
 
-        if (data?.data) {
-          setMission(data.data);
+        if (result?.data) {
+          setData(result.data);
         }
       } catch (err) {
         console.log("ERROR ❌", err);
@@ -26,8 +25,12 @@ const Vision = () => {
       }
     };
 
-    fetchMission();
+    fetchData();
   }, []);
+
+  // ✅ find vision & mission
+  const vision = data.find((item) => item.key === "Vision");
+  const mission = data.find((item) => item.key === "Mission");
 
   return (
     <section className="vision-section">
@@ -39,7 +42,8 @@ const Vision = () => {
       </p>
 
       <div className="vision-grid">
-        {/* ✅ VISION CARD */}
+
+        {/* ================= VISION CARD ================= */}
         <div className="vision-card">
           <div className="inner-vision">
             <div className="figma-glass"></div>
@@ -47,7 +51,7 @@ const Vision = () => {
 
             <div className="vision-top">
               <div className="vision-icon">
-                {/* ✅ YOUR ORIGINAL ICON BACK */}
+                {/* ✅ SAME ICON (UNCHANGED) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -62,23 +66,27 @@ const Vision = () => {
                   />
                 </svg>
               </div>
+
               <div className="vision-label">VISION</div>
             </div>
 
             <h3>
-              Shaping Businesses
-              <br /> Through Global Standards
+              {loading ? "Loading..." : vision?.title || "No Title"}
             </h3>
 
-            <p className="vision-paragraph">
-              To empower organizations with robust management systems by
-              delivering expert ISO consultancy that drives quality,
-              consistency, and long-term business excellence.
-            </p>
+            <p
+              className="vision-paragraph"
+              dangerouslySetInnerHTML={{
+                __html:
+                  loading
+                    ? "Loading..."
+                    : vision?.description || "No description",
+              }}
+            />
           </div>
         </div>
 
-        {/* ✅ MISSION CARD */}
+        {/* ================= MISSION CARD ================= */}
         <div className="vision-card">
           <div className="inner-vision">
             <div className="figma-glass"></div>
@@ -86,7 +94,7 @@ const Vision = () => {
 
             <div className="vision-top">
               <div className="vision-icon">
-                {/* ✅ YOUR ORIGINAL ICON BACK */}
+                {/* ✅ SAME ICON (UNCHANGED) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -114,13 +122,9 @@ const Vision = () => {
               <div className="vision-label">MISSION</div>
             </div>
 
-            <div className="Vision-cards-heading">
-              <h3>
-                {loading
-                  ? "Loading..."
-                  : mission?.title || "No Title"}
-              </h3>
-            </div>
+            <h3>
+              {loading ? "Loading..." : mission?.title || "No Title"}
+            </h3>
 
             <p
               className="vision-paragraph"
@@ -128,7 +132,7 @@ const Vision = () => {
                 __html:
                   loading
                     ? "Loading..."
-                    : mission?.description || "No description available",
+                    : mission?.description || "No description",
               }}
             />
           </div>

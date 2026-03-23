@@ -1,13 +1,25 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import "./Training.css";
 import { Link } from "react-router-dom";
-import Services from "../Services/index.js";
-
 import ContactModal from "../../../components/ConsultationModal/index.js";
-import { useState } from "react";
 
 const TrainingSection = () => {
   const [showModal, setShowModal] = useState(false);
+  const [courses, setCourses] = useState([]);
+
+  // API CALL
+  useEffect(() => {
+    fetch("https://sirsonite.in/sirsonite-d/omkaradmin/api/courses/latest")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setCourses(data.data);
+        }
+      })
+      .catch((err) => console.log("API Error:", err));
+  }, []);
+
   return (
     <section className="training-section">
       <div className="container">
@@ -19,92 +31,49 @@ const TrainingSection = () => {
         </div>
 
         <div className="training-grid">
-          <div className="training-card">
-            <div className="card-header">
-              <div className="top-tags">
-                <span className="tag-pill">Both</span>
-                <span className="tag-pill white">2 Days</span>
+          {courses.length === 0 ? (
+            <p>Loading training programs...</p>
+          ) : (
+            courses.map((item, index) => (
+              <div className="training-card" key={index}>
+                <div className="card-header">
+                  <div className="top-tags">
+                    <span className="tag-pill">
+                      {item.badge || "Both"}
+                    </span>
+                    <span className="tag-pill white">
+                      {item.duration || "N/A"}
+                    </span>
+                  </div>
+
+                  <h3>{item.title}</h3>
+                  <p className="iso-sub">{item.category}</p>
+                </div>
+
+                <div className="card-body">
+                  <p className="price-label">Fees</p>
+                  <h4 className="price">
+                    {item.fees || "Contact for pricing"}
+                  </h4>
+
+                  <p className="description">
+                    {item.short_description ||
+                      "Professional ISO training program with expert guidance."}
+                  </p>
+
+                  <button
+                    onClick={() => {
+                      console.log("Clicked");
+                      setShowModal(true);
+                    }}
+                    className="btn-enquire"
+                  >
+                    Enquiry Now
+                  </button>
+                </div>
               </div>
-              <h3>ISO 9001:2015 Internal Auditor Training</h3>
-              <p className="iso-sub">ISO 9001:2015</p>
-            </div>
-
-            <div className="card-body">
-              <p className="price-label">Fees</p>
-              <h4 className="price">₹5,000 per participant</h4>
-              <p className="description">
-                Comprehensive training on conducting internal audits for ISO
-                9001:2015 Quality Management System.
-              </p>
-              <button
-                onClick={() => {
-                  console.log("Clicked");
-                  setShowModal(true);
-                }}
-                className="btn-enquire"
-              >
-                Enquiry Now
-              </button>
-            </div>
-          </div>
-
-          <div className="training-card">
-            <div className="card-header">
-              <div className="top-tags">
-                <span className="tag-pill">Virtual</span>
-                <span className="tag-pill white">1 Day</span>
-              </div>
-              <h3>ISO 14001:2015 Awareness Training</h3>
-              <p className="iso-sub">ISO 14001:2015</p>
-            </div>
-
-            <div className="card-body">
-              <p className="price-label">Fees</p>
-              <h4 className="price">₹3,000 per participant</h4>
-              <p className="description">
-                Basic awareness training on Environmental Management System
-                requirements and implementation.
-              </p>
-              <button
-                onClick={() => {
-                  console.log("Clicked");
-                  setShowModal(true);
-                }}
-                className="btn-enquire"
-              >
-                Enquiry Now
-              </button>
-            </div>
-          </div>
-
-          <div className="training-card">
-            <div className="card-header">
-              <div className="top-tags">
-                <span className="tag-pill">Classroom</span>
-                <span className="tag-pill white">5 Days</span>
-              </div>
-              <h3>ISO 45001:2018 Lead Auditor Training</h3>
-              <p className="iso-sub">ISO 45001:2018</p>
-            </div>
-
-            <div className="card-body">
-              <p className="price-label">Fees</p>
-              <h4 className="price">₹18,000 per participant</h4>
-              <p className="description">
-                Internationally recognized lead auditor training for
-                Occupational Health & Safety Management System.
-              </p>
-              <button
-                onClick={() => {
-                  console.log("Clicked");
-                  setShowModal(true);
-                }}
-                className="btn-enquire"
-              >
-                Enquiry Now
-              </button>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -114,7 +83,10 @@ const TrainingSection = () => {
         </Link>
       </div>
 
-      <ContactModal show={showModal} onClose={() => setShowModal(false)} />
+      <ContactModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </section>
   );
 };

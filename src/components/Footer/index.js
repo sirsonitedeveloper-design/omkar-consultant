@@ -1,5 +1,8 @@
+
+
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 import logo from "../../assets/Images/logo.jpg";
 import fblogo from "../../assets/Images/facebook.logo.png";
@@ -11,11 +14,57 @@ import contact from "../../assets/Images/Contact-icon.svg";
 import location from "../../assets/Images/location.svg";
 
 const Footer = () => {
+  const [services, setServices] = useState([]);
+  const [isoList, setIsoList] = useState([]);
+  const [loadingISO, setLoadingISO] = useState(true);
+
+  const createSlug = (text) => {
+    return text
+      ?.toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "") // remove special chars
+      .trim()
+      .replace(/\s+/g, "-");
+  };
+
+  useEffect(() => {
+    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/Services/home")
+      .then((res) => res.json())
+      .then((data) => setServices(data.data || []))
+      .catch((err) => console.error("Services API Error:", err));
+  }, []);
+
+  useEffect(() => {
+    const fetchISO = async () => {
+      try {
+        const res = await fetch(
+          "https://sirsonite.in/sirsonite-d/omkaradmin/api/iso-standards",
+        );
+        const data = await res.json();
+
+        console.log("ISO API Response:", data); // 🔍 Debug
+
+        if (data.success && Array.isArray(data.data)) {
+          const unique = [...new Set(data.data)];
+
+          setIsoList(unique);
+        } else {
+          setIsoList([]);
+        }
+      } catch (err) {
+        console.error("ISO API Error:", err);
+        setIsoList([]);
+      } finally {
+        setLoadingISO(false);
+      }
+    };
+
+    fetchISO();
+  }, []);
+
   return (
     <footer className="footer-section">
       <div className="container">
         <div className="footer-grid">
-          {/* COLUMN 1 */}
           <div className="footer-col">
             <div className="footer-logo">
               <img src={logo} alt="Omkar Consultancy" />
@@ -24,6 +73,7 @@ const Footer = () => {
               Your trusted partner in ISO certification and quality management
               excellence since 2010.
             </p>
+
             <div className="social-icons">
               <a href="#">
                 <img src={fblogo} alt="facebook" />
@@ -32,102 +82,81 @@ const Footer = () => {
                 <img src={Twitter} alt="Twitter" />
               </a>
 
-            <a
-  href="https://www.linkedin.com/company/112436841/admin/dashboard/"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <img src={LinkIcon} alt="LinkedIn" />
-</a>
+              <a
+                href="https://www.linkedin.com/company/112436841/admin/dashboard/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={LinkIcon} alt="LinkedIn" />
+              </a>
 
               <a href="#">
                 <img src={instagram} alt="Instagram" />
               </a>
             </div>
           </div>
-          {/* COLUMN 2 */}
+
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul>
               <li>
-                <Link to="/"> Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/about"> About Us</Link>
+                <Link to="/about">About Us</Link>
               </li>
               <li>
-                <Link to="/services"> Services</Link>
+                <Link to="/services">Services</Link>
               </li>
               <li>
-                <Link to="/iso"> ISO Standards</Link>
+                <Link to="/iso">ISO Standards</Link>
               </li>
               <li>
-                <Link to="/blog"> Blog</Link>
+                <Link to="/blog">Blog</Link>
               </li>
               <li>
-                <Link to="/careers"> Careers</Link>
+                <Link to="/careers">Careers</Link>
               </li>
               <li>
-                <Link to="/Feedback"> Feedback</Link>
+                <Link to="/Feedback">Feedback</Link>
               </li>
             </ul>
           </div>
-          {/* COLUMN 3 */}
+
           <div className="footer-col">
             <h4>List The Standards</h4>
             <ul>
-              <li>
-                <Link to="IsoCertification"> ISO 9001:2015</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification">ISO 14001:2015</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification">ISO 45001:2018</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification"> IATF 16949:2016</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification"> IRIS 22163:2023</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification"> ISO 13485:2016</Link>
-              </li>
-              <li>
-                <Link to="IsoCertification"> ISO 14064:2018</Link>
-              </li>
+              {loadingISO ? (
+                <li>Loading...</li>
+              ) : isoList.length > 0 ? (
+                isoList.slice(0, 7).map((iso, index) => (
+                  <li key={index}>
+                    <Link to={`/iso/${createSlug(iso)}`}>{iso}</Link>
+                  </li>
+                ))
+              ) : (
+                <li>No ISO Standards Found</li>
+              )}
             </ul>
           </div>
-          {/* colum 4 */}
+
           <div className="footer-col">
             <h4>Our Services</h4>
             <ul>
-              <li>
-                <Link to="/service-details"> Gap Audit</Link>
-              </li>
-              <li>
-                <Link to="/service-details"> Customized Training</Link>
-              </li>
-              {/* <li>
-                <Link to='/service-details'> Virtual Training
-                </Link>
-              </li> */}
-              <li>
-                <Link to="/service-details"> Standard Trainings</Link>
-              </li>
-              <li>
-                <Link to="/service-details"> Internal Audit</Link>
-              </li>
-              <li>
-                <Link to="/service-details"> Supplier Audit</Link>
-              </li>
-              <li>
-                <Link to="/service-details"> Documentation</Link>
-              </li>
+              {services.length > 0 ? (
+                services.map((item, index) => (
+                  <li key={index}>
+                    <Link to={`/service-details/${createSlug(item.title)}`}>
+                      {item.title}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li>Loading...</li>
+              )}
             </ul>
           </div>
-          {/* COLUMN 4 */}
+
           <div className="footer-col">
             <h4>Contact Us</h4>
             <div className="contact-info">
@@ -135,16 +164,17 @@ const Footer = () => {
                 <img src={contact} alt="contact" /> +91 9930054078
               </p>
               <p>
-                <img src={mailIcon} alt="Mail-icon" /> info@omkarconsultants.com
+                <img src={mailIcon} alt="mail" /> info@omkarconsultants.com
               </p>
               <p>
-                <img src={location} alt="location-icon" /> 394/4, Radha
-                Apartment, Sai Section, Ambernath (East) – 421501, India
+                <img src={location} alt="location" />
+                394/4, Radha Apartment, Sai Section, Ambernath (East) – 421501,
+                India
               </p>
             </div>
           </div>
         </div>
-        {/* FOOTER BOTTOM */}
+
         <div className="footer-bottom">
           <p>
             © 2026 Omkar Consultants. All rights reserved. Designed By :

@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import "./Contact.css";
 
 const ContactForm = () => {
@@ -8,12 +9,24 @@ const ContactForm = () => {
     mobile: "",
     company: "",
     service: "",
-     isoStandard: "",
+    isoStandard: "",
     message: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); 
+const [isoOptions, setIsoOptions] = useState([]);
 
+useEffect(() => {
+  fetch("https://sirsonite.in/sirsonite-d/omkaradmin/api/iso-standards")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        setIsoOptions(data.data);
+      }
+    })
+    .catch((err) => console.error("Error fetching ISO standards:", err));
+}, []);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -51,14 +64,61 @@ const ContactForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validate();
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Form Submitted:", formData);
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          "https://sirsonite.in/sirsonite-d/omkaradmin/api/consultation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              full_name: formData.fullName,
+              email: formData.email,
+              mobile: formData.mobile,
+              company: formData.company,
+              service: formData.service,
+              iso_standard: formData.isoStandard,
+              message: formData.message,
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert("Form submitted successfully ✅");
+          console.log("Success:", data);
+
+          // Reset form
+          setFormData({
+            fullName: "",
+            email: "",
+            mobile: "",
+            company: "",
+            service: "",
+            isoStandard: "",
+            message: "",
+          });
+        } else {
+          alert("Something went wrong ❌");
+          console.log("Error:", data);
+        }
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Server error ❌");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -133,7 +193,8 @@ const ContactForm = () => {
             </select>
             {errors.service && <small>{errors.service}</small>}
           </div>
-<div className="form-group">
+
+         <div className="form-group">
   <label>ISO Standard</label>
   <select
     name="isoStandard"
@@ -141,15 +202,15 @@ const ContactForm = () => {
     onChange={handleChange}
   >
     <option value="">Select ISO Standard</option>
-    <option value="ISO 9001">ISO 9001:2015</option>
-    <option value="ISO 14001">ISO 14001:2015</option>
-    <option value="ISO 45001">ISO 45001:2018</option>
-    <option value="ISO 22000">IATF 16949:2016</option>
-    <option value="ISO 27001">IRIS 22163:2023</option>
-    <option value="ISO 27001">ISO 13485:2016</option>
-    <option value="ISO 27001">SO 14064:2018</option>
+
+    {isoOptions.map((iso, index) => (
+      <option key={index} value={iso}>
+        {iso}
+      </option>
+    ))}
   </select>
 </div>
+
           <div className="form-group">
             <label>Message (Optional)</label>
             <input
@@ -160,10 +221,11 @@ const ContactForm = () => {
               onChange={handleChange}
             />
           </div>
-<div className="btn1">
-          <button type="submit" className="btn-contact1">
-            Submit
-          </button>
+
+          <div className="btn1">
+            <button type="submit" className="btn-contact1" disabled={loading}>
+              {loading ? "Submitting..." : "Submit"}
+            </button>
           </div>
         </form>
       </div>

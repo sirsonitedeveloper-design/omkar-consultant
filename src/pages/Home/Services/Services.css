@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
 
-/* ================= HEADER ================= */
 
 .section-header {
   text-align: center;
@@ -35,7 +34,6 @@
   font-family: "Inter", sans-serif;
 }
 
-/* ================= SECTION ================= */
 
 .services-section {
   background: #f8f9fa;
@@ -114,6 +112,7 @@
   justify-content: center;
 }
 
+
 .teal-card .icon-box {
   background: #fff;
 }
@@ -122,12 +121,21 @@
   background: #0084aa;
 }
 
-.icon-box img {
+
+.icon-box svg {
   width: 40px;
   height: 40px;
 }
 
-/* ================= TEXT ================= */
+
+.teal-card .icon-box svg {
+  fill: #0084aa;
+}
+
+.white-card .icon-box svg {
+  fill: #fff;
+}
+
 
 .service-card h3,
 .service-card1 h3 {
@@ -145,14 +153,23 @@
   text-align: center;
   font-family: "Inter", sans-serif;
 }
+.icon-box svg {
+  width: 40px;
+  height: 40px;
+}
 
-/* ================= SLIDER ================= */
+.teal-card .icon-box {
+  color: #0084aa;
+}
+
+.white-card .icon-box {
+  color: #fff;
+}
 
 @keyframes servicesMarquee {
   0% {
     transform: translateX(0);
   }
-
   100% {
     transform: translateX(-50%);
   }
@@ -161,19 +178,14 @@
 /* ================= LAPTOP ================= */
 
 @media (max-width: 1200px) {
-
   .service-item {
     min-width: 280px;
   }
-
 }
 
-/* ================= TABLET ================= */
-
-@medi/* ================= TABLET / SMALL LAPTOP ================= */
+/* ================= TABLET / SMALL LAPTOP ================= */
 
 @media (max-width: 1024px) {
-
   .section-header h2 {
     font-size: 34px;
   }
@@ -187,29 +199,11 @@
     padding: 40px 20px;
     min-height: 320px;
   }
-
-}a (max-width: 992px) {
-
-  .section-header h2 {
-    font-size: 34px;
-  }
-
-  .service-item {
-    min-width: 260px;
-  }
-
-  .service-card,
-  .service-card1 {
-    padding: 40px 20px;
-    min-height: 320px;
-  }
-
 }
 
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
-
   .services-section {
     padding: 60px 15px;
   }
@@ -231,7 +225,7 @@
     height: 65px;
   }
 
-  .icon-box img {
+  .icon-box svg {
     width: 30px;
     height: 30px;
   }
@@ -240,13 +234,11 @@
   .service-card1 h3 {
     font-size: 18px;
   }
-
 }
 
 /* ================= SMALL MOBILE ================= */
 
 @media (max-width: 480px) {
-
   .services-section {
     padding: 50px 10px;
   }
@@ -263,5 +255,4 @@
   .service-card1 {
     padding: 30px 15px;
   }
-
 }
