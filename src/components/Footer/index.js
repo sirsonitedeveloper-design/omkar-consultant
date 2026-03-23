@@ -147,7 +147,7 @@ const Footer = () => {
         {/* FOOTER BOTTOM */}
         <div className="footer-bottom">
           <p>
-            © 2026 Omkar Consultancy. All rights reserved. Designed By :
+            © 2026 Omkar Consultants. All rights reserved. Designed By :
             <a
               href="https://sirsonite.com/"
               target="_blank"

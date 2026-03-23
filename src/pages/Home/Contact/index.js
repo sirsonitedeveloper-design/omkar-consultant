@@ -8,6 +8,7 @@ const ContactForm = () => {
     mobile: "",
     company: "",
     service: "",
+     isoStandard: "",
     message: "",
   });
 
@@ -132,7 +133,23 @@ const ContactForm = () => {
             </select>
             {errors.service && <small>{errors.service}</small>}
           </div>
-
+<div className="form-group">
+  <label>ISO Standard</label>
+  <select
+    name="isoStandard"
+    value={formData.isoStandard}
+    onChange={handleChange}
+  >
+    <option value="">Select ISO Standard</option>
+    <option value="ISO 9001">ISO 9001:2015</option>
+    <option value="ISO 14001">ISO 14001:2015</option>
+    <option value="ISO 45001">ISO 45001:2018</option>
+    <option value="ISO 22000">IATF 16949:2016</option>
+    <option value="ISO 27001">IRIS 22163:2023</option>
+    <option value="ISO 27001">ISO 13485:2016</option>
+    <option value="ISO 27001">SO 14064:2018</option>
+  </select>
+</div>
           <div className="form-group">
             <label>Message (Optional)</label>
             <input
@@ -143,10 +160,11 @@ const ContactForm = () => {
               onChange={handleChange}
             />
           </div>
-
-          <button type="submit" className="btn-contact">
+<div className="btn1">
+          <button type="submit" className="btn-contact1">
             Submit
           </button>
+          </div>
         </form>
       </div>
     </section>

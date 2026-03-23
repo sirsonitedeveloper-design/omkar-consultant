@@ -63,12 +63,16 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUS />} />
         <Route path="/services" element={<Services />} />
+        {/* <Route path="/service-details/:slug" element={<ServiceDetails />} /> */}
+        <Route path="/service-details/:slug" element={<ServiceDetails />} />
         <Route path="/iso" element={<ISOStandard />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogDetails />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/service-details" element={<ServiceDetails />} />
-        <Route path="/IsoCertification" element={<IsoCertification />} />
+{/* <Route path="/service-details/:index" element={<ServiceDetails />} />    */}
+{/* <Route path="/service-details/:index" element={<ServiceDetails />} /> */}
+ <Route path="/IsoCertification" element={<IsoCertification />} />
         <Route path="/Feedback" element={<Feedback />} />
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="*" element={<Navigate to="/" replace />} />

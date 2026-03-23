@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./WhoWe.css";
 
 const WhoWe = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      "https://www.sirsonite.in/sirsonite-d/omkaradmin/api/who-we-are",
+      {
+        method: "GET",
+      }
+    )
+      .then((res) => res.json())
+      .then((resData) => {
+        console.log("WHO API 👉", resData);
+
+        setData(resData?.data?.[0] || null);
+      })
+      .catch((err) => console.log("ERROR ❌", err));
+  }, []);
+
   return (
     <section className="who-section">
       <div className="who-container">
@@ -9,20 +27,19 @@ const WhoWe = () => {
           <h2 className="who-title">Who We Are</h2>
           <div className="who-underline"></div>
 
-          <p className="who-text">
-            is a trusted management consulting firm specializing in ISO
-            certification, compliance management, and business process
-            improvement. With years of industry expertise and a client-first
-            approach, we help organizations across diverse sectors achieve
-            internationally recognized standards and operational excellence.
-          </p>
+          <p
+            className="who-text"
+            dangerouslySetInnerHTML={{
+              __html: data?.description_1 || "Loading...",
+            }}
+          />
 
-          <p className="who-text second">
-            We believe in practical, customized solutions that align with your
-            business goals. Our team of experienced consultants brings deep
-            domain knowledge, clarity in execution, and unwavering commitment to
-            delivering results on time, every time.
-          </p>
+          <p
+            className="who-text second"
+            dangerouslySetInnerHTML={{
+              __html: data?.description_2 || "",
+            }}
+          />
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import logo from "../../assets/Images/logo.jpg";
 import { Link } from "react-router-dom";
@@ -7,11 +7,24 @@ const Header = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [servicesData, setServicesData] = useState([]); // ✅ NEW
 
   const closeMenu = () => {
     setMenuOpen(false);
     setServicesOpen(false);
   };
+
+  // ✅ FETCH SERVICES API
+  useEffect(() => {
+    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/Services/home")
+      .then((res) => res.json())
+      .then((data) => setServicesData(data.data || []))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // ✅ SLUG FUNCTION
+  const createSlug = (title) =>
+    title?.toLowerCase().replace(/\s+/g, "-");
 
   return (
     <header className="main-header">
@@ -40,8 +53,7 @@ const Header = () => {
               </Link>
             </li>
 
-            {/* SERVICES DROPDOWN */}
-
+            {/* ✅ SERVICES DROPDOWN */}
             <li className={`dropdown ${servicesOpen ? "open" : ""}`}>
 
               <div className="services-link">
@@ -67,55 +79,19 @@ const Header = () => {
 
               </div>
 
+              {/* ✅ DYNAMIC MENU */}
               <ul className="dropdown-menu">
 
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Gap Audit
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Internal Audit
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Customized Trainings
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Transition Of Standards
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Virtual Trainings
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Supplier Audits
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Documentation
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/service-details" onClick={closeMenu}>
-                    Certification Upgrades
-                  </Link>
-                </li>
+                {servicesData.map((item, i) => (
+                  <li key={i}>
+                    <Link
+                      to={`/service-details/${createSlug(item.title)}`} // ✅ FIX
+                      onClick={closeMenu}
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
 
               </ul>
 
@@ -148,7 +124,6 @@ const Header = () => {
         </nav>
 
         {/* HAMBURGER */}
-
         <div
           className={`hamburger ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}

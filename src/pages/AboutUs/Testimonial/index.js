@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Testimonial.css";
 
-const testimonialsData = [
-  {
-    text: `"Omkar Consultancy helped us achieve ISO 9001:2015 certification smoothly. Their expertise and support throughout the process were exceptional."`,
-    name: "John Doe",
-    role: "Quality Manager, ABC Corp",
-  },
-  {
-    text: `"Omkar Consultancy helped us achieve ISO 9001:2015 certification smoothly. Their expertise and support throughout the process were exceptional."`,
-    name: "John Doe",
-    role: "Quality Manager, ABC Corp",
-  },
-  {
-    text: `"Omkar Consultancy helped us achieve ISO 9001:2015 certification smoothly. Their expertise and support throughout the process were exceptional."`,
-    name: "John Doe",
-    role: "Quality Manager, ABC Corp",
-  },
-  
-];
-
 export default function Testimonials() {
+  const [testimonialsData, setTestimonialsData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const visibleCards = 3;
+
+  useEffect(() => {
+    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/testimonials")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setTestimonialsData(data.data);
+        }
+      })
+      .catch((err) => console.error("API Error:", err));
+  }, []);
 
   const nextSlide = () => {
     if (currentIndex < testimonialsData.length - visibleCards) {
@@ -58,19 +51,32 @@ export default function Testimonials() {
               }}
             >
               {testimonialsData.map((item, index) => (
-                <div className="testimonial-card" key={index}>
-                  <div className="stars">★★★★★</div>
+                <div className="testimonial-card" key={item.id}>
+                  
+                  <div className="stars">
+                    {"★".repeat(item.rating)}
+                    {"☆".repeat(5 - item.rating)}
+                  </div>
 
-                  <p className="testimonial-text">{item.text}</p>
+                  <p
+                    className="testimonial-text"
+                    dangerouslySetInnerHTML={{ __html: item.quote }}
+                  ></p>
 
                   <div className="testimonial-user">
-                    <div className="avatar">{item.name.charAt(0)}</div>
+                    
+                    <div className="avatar">
+                      {item.avatar || item.name.charAt(0)}
+                    </div>
 
                     <div>
                       <h4>{item.name}</h4>
-                      <span>{item.role}</span>
+                      <span>
+                        {item.role}, {item.company}
+                      </span>
                     </div>
                   </div>
+
                 </div>
               ))}
             </div>

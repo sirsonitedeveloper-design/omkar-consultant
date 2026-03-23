@@ -1,10 +1,13 @@
-import React from "react";
+
+// export default ServiceCard;
+import React, { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import "./ServicesCard.css";
 import { useNavigate } from "react-router-dom";
 
 const ServiceCard = () => {
   const navigate = useNavigate();
+  const [apiData, setApiData] = useState([]);
 
   const Service = [
     {
@@ -22,8 +25,6 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Gap Audit",
-      desc: "Identify compliance gaps and improvement areas in your management systems",
       class: "service-card teal-card",
     },
 
@@ -48,14 +49,12 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Internal Audit",
-      desc: "Identify compliance gaps and improvement areas",
       class: "service-card1 white-card",
     },
 
     {
       icon: (
-        <svg
+       <svg
           xmlns="http://www.w3.org/2000/svg"
           width="38"
           height="38"
@@ -79,14 +78,12 @@ const ServiceCard = () => {
           </defs>
         </svg>
       ),
-      title: "Customized Trainings",
-      desc: "Tailored training programs designed for your team",
       class: "service-card teal-card",
     },
 
     {
       icon: (
-        <svg
+       <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
           height="40"
@@ -106,14 +103,12 @@ const ServiceCard = () => {
           </defs>
         </svg>
       ),
-      title: "Transition Of Standards",
-      desc: "Seamless migration to updated ISO standards",
       class: "service-card1 white-card",
     },
 
     {
       icon: (
-        <svg
+         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="52"
           height="52"
@@ -134,8 +129,6 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Virtual Trainings",
-      desc: "Flexible online training sessions accessible from anywhere.",
       class: "service-card teal-card",
     },
 
@@ -154,14 +147,12 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Supplier Audits",
-      desc: "Evaluate and qualify your supply chain with thorough assessments.",
       class: "service-card1 white-card",
     },
 
     {
       icon: (
-        <svg
+         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
           height="27"
@@ -174,14 +165,12 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Documentation",
-      desc: "Professional documentation services for quality management systems.",
       class: "service-card teal-card",
     },
 
     {
       icon: (
-        <svg
+       <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
           height="27"
@@ -194,65 +183,80 @@ const ServiceCard = () => {
           />
         </svg>
       ),
-      title: "Certification Upgrades",
-      desc: "Support for upgrading your certification with accredited bodies.",
       class: "service-card1 white-card",
     },
   ];
 
-  const firstRow = Service.slice(0, 4);
-  const secondRow = Service.slice(4, 8);
+  useEffect(() => {
+    fetch("https://www.sirsonite.in/sirsonite-d/omkaradmin/api/Services/home")
+      .then((res) => res.json())
+      .then((data) => setApiData(data.data || []))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const createSlug = (title) =>
+    title?.toLowerCase().replace(/\s+/g, "-");
+
+  const firstRow = apiData.slice(0, 4);
+  const secondRow = apiData.slice(4, 8);
 
   return (
     <div>
-    <section className="services-section">
-      <div className="container">
-        <div className="services-grid">
-          {firstRow.map((card, i) => (
-            <div key={i} className="service-item">
-              <div className={card.class}>
-                <div className="icon-box">{card.icon}</div>
+      <section className="services-section">
+        <div className="container">
 
-                <h3>{card.title}</h3>
-                <p>{card.desc}</p>
+          <div className="services-grid">
+            {firstRow.map((item, i) => (
+              <div key={i} className="service-item">
+                <div className={Service[i]?.class}>
+                  <div className="icon-box">
+                    {Service[i]?.icon}
+                  </div>
+
+                  <h3>{item.title}</h3>
+                  <p>{item.home_content}</p>
+                </div>
+
+                <span
+                  className="learn-more"
+                  onClick={() =>
+                    navigate(`/service-details/${createSlug(item.title)}`)
+                  }
+                >
+                  Learn More →
+                </span>
               </div>
+            ))}
+          </div>
 
-              <span
-                className="learn-more"
-                onClick={() => navigate("/service-details")}
-                style={{ cursor: "pointer" }}
-              >
-                Learn More →
-              </span>
-            </div>
-          ))}
-        </div>
+          <div className="services-grid2">
+            {secondRow.map((item, i) => (
+              <div key={i} className="service-item">
+                <div className={Service[i + 4]?.class}>
+                  <div className="icon-box">
+                    {Service[i + 4]?.icon}
+                  </div>
 
-        <div className="services-grid2">
-          {secondRow.map((card, i) => (
-            <div key={i} className="service-item">
-              <div className={card.class}>
-                <div className="icon-box">{card.icon}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.home_content}</p>
+                </div>
 
-                <h3>{card.title}</h3>
-                <p>{card.desc}</p>
+                <span
+                  className="learn-more"
+                  onClick={() =>
+                    navigate(`/service-details/${createSlug(item.title)}`)
+                  }
+                >
+                  Learn More →
+                </span>
               </div>
+            ))}
+          </div>
 
-              <span
-                className="learn-more"
-                onClick={() => navigate("/service-details")}
-                style={{ cursor: "pointer" }}
-              >
-                Learn More →
-              </span>
-            </div>
-          ))}
         </div>
-      </div>
+      </section>
 
-     
-    </section>
-     <Footer />
+      <Footer />
     </div>
   );
 };

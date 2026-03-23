@@ -20,11 +20,50 @@ import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+const fallbackFeatures = [
+  { title: "Expert Team", subtitle: "Highly experienced consultants" },
+  { title: "Proven Results", subtitle: "Successful ISO certifications" },
+  { title: "Client Focused", subtitle: "Tailored solutions for your business" },
+  { title: "Affordable", subtitle: "Cost-effective services" },
+  { title: "Fast Process", subtitle: "Quick and smooth certification" },
+  { title: "Trusted Partner", subtitle: "Long-term business support" },
+];
+
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
+  const [banner, setBanner] = useState(null);
+  const [features, setFeatures] = useState(fallbackFeatures);
+  const [loading, setLoading] = useState(true);
+
+  const icons = [why1, why2, why3, why4, why5, why6];
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(
+      "https://www.sirsonite.in/sirsonite-d/omkaradmin/api/home-banner",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.banner) {
+          setBanner(data.banner);
+        }
+      })
+      .catch((err) => console.log("Banner API failed:", err));
+
+    setTimeout(() => controller.abort(), 5000);
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -53,54 +92,46 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const grid = document.querySelector("#servicesCarousel .services-grid");
-    const nextBtn = document.querySelector(".carousel-control-next");
-    const prevBtn = document.querySelector(".carousel-control-prev");
+    const controller = new AbortController();
 
-    if (!grid || grid.dataset.loaded) return;
-    grid.dataset.loaded = "true";
-
-    const cards = grid.innerHTML;
-    grid.innerHTML = cards + cards;
-
-    let position = 0;
-    const cardWidth = grid.querySelector(".service-card").offsetWidth + 15;
-    const totalCards = grid.children.length;
-
-    nextBtn.addEventListener("click", () => {
-      position++;
-
-      grid.style.transition = "transform 0.5s ease";
-      grid.style.transform = `translateX(-${position * cardWidth}px)`;
-
-      if (position >= totalCards / 2) {
-        setTimeout(() => {
-          grid.style.transition = "none";
-          position = 0;
-          grid.style.transform = `translateX(0px)`;
-        }, 500);
+    fetch(
+      "https://www.sirsonite.in/sirsonite-d/omkaradmin/api/why-choose",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
       }
-    });
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("WHY API:", data);
 
-    prevBtn.addEventListener("click", () => {
-      position--;
+        if (data?.data && Array.isArray(data.data)) {
+          setFeatures(data.data);
+        }
+      })
+      .catch((err) => {
+        console.log("Why API failed → using fallback", err);
+      })
+      .finally(() => setLoading(false));
 
-      if (position < 0) {
-        position = totalCards / 2;
-        grid.style.transition = "none";
-        grid.style.transform = `translateX(-${position * cardWidth}px)`;
-      }
-
-      setTimeout(() => {
-        grid.style.transition = "transform 0.5s ease";
-        grid.style.transform = `translateX(-${position * cardWidth}px)`;
-      }, 10);
-    });
+    setTimeout(() => controller.abort(), 5000);
+    return () => controller.abort();
   }, []);
 
   return (
     <>
-      <section className="hero-slider">
+      {/* HERO */}
+      <section
+        className="hero-slider"
+        style={{
+          backgroundImage: banner ? `url(${banner.image})` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="hero-bg-overlay"></div>
 
         <div className="container hero-flex">
@@ -113,47 +144,26 @@ const Home = () => {
             </button>
 
             <div className="hero-counters">
-              <div className="counter">
-                <span className="num" data-target="100">
-                  0+
-                </span>
-                <span className="label">Certified Clients</span>
-              </div>
-
-              <div className="counter">
-                <span className="num" data-target="15">
-                  0+
-                </span>
-                <span className="label">Years Experience</span>
-              </div>
-
-              <div className="counter">
-                <span className="num" data-target="1000">
-                  0+
-                </span>
-                <span className="label">Trained employees</span>
-              </div>
-
-              <div className="counter">
-                <span className="num" data-target="25000">
-                  0+
-                </span>
-                <span className="label">Man hrs of audit efforts</span>
-              </div>
-
-              <div className="counter">
-                <span className="num" data-target="5">
-                  0
-                </span>
-                <span className="label">Auditing standards</span>
-              </div>
+              {[
+                { num: 100, label: "Certified Clients" },
+                { num: 15, label: "Years Experience" },
+                { num: 1000, label: "Trained employees" },
+                { num: 25000, label: "Man hrs of audit efforts" },
+                { num: 5, label: "Auditing standards" },
+              ].map((item, i) => (
+                <div className="counter" key={i}>
+                  <span className="num" data-target={item.num}>
+                    0+
+                  </span>
+                  <span className="label">{item.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ABOUT SECTION */}
-
+      {/* ABOUT */}
       <section className="about-us">
         <div className="container">
           <div className="about-header" data-aos="fade-up">
@@ -168,22 +178,7 @@ const Home = () => {
               <p>
                 Established in the year 2010, Omkar Consultants, Ambarnath,
                 India, is a promising Service provider in Management Consultancy
-                services. We believe that an ISO Management system can provide
-                tremendous benefits with increased discipline and consistency.
-                Omkar Consultants is a Management Consultancy house based in
-                Ambernath, Central Mumbai providing Management Consultancy
-                Services to business sectors small, medium and large
-                organizations PAN India.
-              </p>
-
-              <p>
-                Omkar Consultants offers a unique fixed price business model and
-                an innovative performance guarantee. We rely on some specific
-                characteristics possessed by us for maintaining a reputed &
-                trusted position among consultancy providers. These are,
-                Customer Focus, Economical and Time Specific deliverance, Prompt
-                Service, Effective training and appropriate documentation
-                expertise.
+                services.
               </p>
 
               <Link to="about" className="btn-knowMore">
@@ -198,12 +193,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SERVICES */}
-
       <Services />
 
       {/* WHY CHOOSE */}
-
       <section className="why-choose-section">
         <div className="container">
           <div className="section-header" data-aos="fade-up">
@@ -213,94 +205,25 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="features-grid">
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <div className="feature-icon">
-                <img src={why1} alt="whyChoose icon" />
-              </div>
-              <h3>10+ Years Experience</h3>
-              <p>
-                Extensive experience in ISO certification and consulting across
-                industries
-              </p>
-            </div>
+          {loading ? (
+            <p style={{ textAlign: "center" }}>Loading...</p>
+          ) : (
+            <div className="features-grid">
+              {features.map((item, index) => (
+                <div className="feature-item" key={index}>
+                  <div className="feature-icon">
+                    <img
+                      src={icons[index % icons.length]}
+                      alt={item.title}
+                    />
+                  </div>
 
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <div className="feature-icon">
-                <img src={why2} alt="whyChoose icon" />
-              </div>
-              <h3>Certified Experts</h3>
-              <p>
-                Team of IRCA certified lead auditors and experienced consultants
-              </p>
+                  <h3>{item.title}</h3>
+                  <p>{item.subtitle}</p>
+                </div>
+              ))}
             </div>
-
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <div className="feature-icon">
-                <img src={why3} alt="whyChoose icon" />
-              </div>
-              <h3>Pan India Support</h3>
-              <p>
-                Services available across India with dedicated regional support
-              </p>
-            </div>
-
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <div className="feature-icon">
-                <img src={why4} alt="whyChoose icon" />
-              </div>
-              <h3>High Success Rate</h3>
-              <p>
-                100% success rate in certification audits with proper
-                preparation
-              </p>
-            </div>
-
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="500"
-            >
-              <div className="feature-icon">
-                <img src={why5} alt="whyChoose icon" />
-              </div>
-              <h3>Quick Turnaround</h3>
-              <p>
-                Fast and efficient certification process without compromising
-                quality
-              </p>
-            </div>
-
-            <div
-              className="feature-item"
-              data-aos="fade-up"
-              data-aos-delay="600"
-            >
-              <div className="feature-icon">
-                <img src={why6} alt="whyChoose icon" />
-              </div>
-              <h3>Quality Assured</h3>
-              <p>
-                Proven methodologies and best practices for sustainable success
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 

@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react";
 import "./FloatingButtons.css";
 
 const FloatingButtons = () => {
+  const [showArrow, setShowArrow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowArrow(true);
+      } else {
+        setShowArrow(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="floating-buttons">
       {/* WhatsApp */}
@@ -37,7 +56,6 @@ const FloatingButtons = () => {
         </svg>
       </a>
 
-      {/* Call */}
       <a href="tel:+919930054078" className="float-btn call">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -50,24 +68,26 @@ const FloatingButtons = () => {
         </svg>
       </a>
 
-      <a
-        className="float-btn enquiry"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#fff"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+      {showArrow && (
+        <a
+          className="float-btn enquiry"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-      </a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </a>
+      )}
     </div>
   );
 };
